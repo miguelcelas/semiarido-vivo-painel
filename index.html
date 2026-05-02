@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Painel de Fontes — News do Semiárido Vivo</title>
-<meta name="description" content="Painel de curadoria de notícias sobre o Semiárido brasileiro. Fontes: ASA Brasil, Brasil de Fato, Agência Pública, Mongabay, ((o))eco, Agência Brasil.">
+<meta name="description" content="Painel de curadoria de notícias sobre o Semiárido brasileiro.">
 <meta property="og:title" content="Painel de Fontes — Semiárido Vivo">
-<meta property="og:description" content="Curadoria quinzenal com perspectiva decolonial sobre o Semiárido brasileiro.">
 <meta property="og:url" content="https://semiaridovivo.com/painel">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +16,6 @@
 
   :root {
     --terra: #C4622D;
-    --ocre: #B8860B;
     --verde: #4A6741;
     --areia: #F5EDD6;
     --casca: #E8D5B0;
@@ -25,10 +23,10 @@
     --cinza: #7A6A5A;
     --branco: #FDFAF4;
     --erro: #8B2E2E;
+    --ouro: #B8860B;
   }
 
   html { scroll-behavior: smooth; }
-
   body {
     font-family: 'Instrument Sans', sans-serif;
     background: var(--branco);
@@ -46,7 +44,6 @@
     z-index: 100;
     border-bottom: 3px solid var(--terra);
   }
-
   .header-top {
     display: flex;
     align-items: center;
@@ -54,374 +51,268 @@
     margin-bottom: 14px;
     flex-wrap: wrap;
   }
-
-  .header-brand { display: flex; align-items: baseline; gap: 10px; }
-
   .header-title {
     font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--areia);
-    letter-spacing: -0.3px;
+    font-size: 22px; font-weight: 700; color: var(--areia);
   }
-
-  .header-title a {
-    color: inherit;
-    text-decoration: none;
-  }
-
+  .header-title a { color: inherit; text-decoration: none; }
   .header-title a:hover { color: var(--casca); }
-
   .header-sub {
-    font-size: 10px;
-    color: #6A5A4A;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
+    font-size: 10px; color: #6A5A4A;
+    letter-spacing: 1.8px; text-transform: uppercase; margin-top: 2px;
   }
-
   .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-left: auto;
-    flex-wrap: wrap;
+    display: flex; align-items: center;
+    gap: 10px; margin-left: auto; flex-wrap: wrap;
   }
-
-  .last-update {
-    font-size: 11px;
-    color: #6A5A4A;
-  }
-
+  .last-update { font-size: 11px; color: #6A5A4A; }
   .btn {
-    border: none;
-    padding: 7px 16px;
-    border-radius: 4px;
+    border: none; padding: 7px 14px; border-radius: 4px;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: background 0.2s, opacity 0.2s;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    letter-spacing: 0.4px;
+    transition: background 0.2s, opacity 0.2s, border-color 0.2s;
     text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+    display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
   }
-
   .btn-primary { background: var(--terra); color: var(--areia); }
   .btn-primary:hover { background: #A8501F; }
   .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--casca);
-    border: 1.5px solid #4A3828;
-  }
+  .btn-ghost { background: transparent; color: var(--casca); border: 1.5px solid #4A3828; }
   .btn-ghost:hover { border-color: var(--terra); color: var(--terra); }
-
-  .source-chips {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
+  .btn-selection { background: var(--ouro); color: white; }
+  .btn-selection:hover { background: #9A7009; }
+  .btn-selection.empty { opacity: 0.4; cursor: default; pointer-events: none; }
+  .selection-count {
+    background: white; color: var(--ouro);
+    font-size: 10px; font-weight: 800;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center; margin-left: 2px;
   }
+  .source-chips { display: flex; gap: 6px; flex-wrap: wrap; }
 
-  /* ── FILTERS BAR ── */
+  /* ── TABS ── */
+  .view-tabs {
+    display: flex; background: var(--casca);
+    border-bottom: 1px solid #D4C4A0; padding: 0 32px;
+  }
+  .view-tab {
+    padding: 10px 18px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border-bottom: 3px solid transparent;
+    color: var(--cinza); transition: color 0.15s, border-color 0.15s;
+    user-select: none; display: flex; align-items: center; gap: 6px;
+  }
+  .view-tab:hover { color: var(--sombra); }
+  .view-tab.active { color: var(--terra); border-bottom-color: var(--terra); }
+  .tab-badge {
+    background: var(--ouro); color: white;
+    font-size: 10px; font-weight: 700;
+    padding: 1px 7px; border-radius: 10px; display: none;
+  }
+  .tab-badge.visible { display: inline-flex; }
+
+  /* ── FILTROS ── */
   .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 12px 32px;
-    background: var(--casca);
-    border-bottom: 1px solid #D4C4A0;
-    align-items: center;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 12px 32px; background: var(--casca);
+    border-bottom: 1px solid #D4C4A0; align-items: center;
   }
-
   .filter-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--cinza);
-    margin-right: 2px;
-    white-space: nowrap;
-    font-weight: 600;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1.4px; color: var(--cinza);
+    margin-right: 2px; white-space: nowrap; font-weight: 600;
   }
-
   .chip {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1.5px solid transparent;
-    transition: all 0.15s;
-    white-space: nowrap;
-    user-select: none;
+    padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    cursor: pointer; border: 1.5px solid transparent;
+    transition: all 0.15s; white-space: nowrap; user-select: none;
   }
-
-  .chip-source {
-    background: var(--branco);
-    border-color: #C4B090;
-    color: var(--sombra);
-  }
-  .chip-source.active {
-    background: var(--sombra);
-    color: var(--areia);
-    border-color: var(--sombra);
-  }
+  .chip-source { background: var(--branco); border-color: #C4B090; color: var(--sombra); }
+  .chip-source.active { background: var(--sombra); color: var(--areia); border-color: var(--sombra); }
   .chip-source:hover:not(.active) { border-color: var(--terra); color: var(--terra); }
-
   .chip-keyword { background: var(--branco); border-color: var(--verde); color: var(--verde); }
   .chip-keyword.active { background: var(--verde); color: white; }
   .chip-keyword:hover:not(.active) { background: #EBF4E8; }
-
-  .search-wrap {
-    margin-left: auto;
-    position: relative;
-  }
-
+  .search-wrap { margin-left: auto; position: relative; }
   .search-input {
-    border: 1.5px solid #C4B090;
-    background: var(--branco);
-    padding: 6px 14px 6px 32px;
-    border-radius: 20px;
+    border: 1.5px solid #C4B090; background: var(--branco);
+    padding: 6px 14px 6px 32px; border-radius: 20px;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 12px;
-    color: var(--sombra);
-    width: 220px;
-    outline: none;
+    font-size: 12px; color: var(--sombra); width: 220px; outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
   }
-  .search-input:focus {
-    border-color: var(--terra);
-    box-shadow: 0 0 0 3px rgba(196,98,45,0.12);
-  }
-
+  .search-input:focus { border-color: var(--terra); box-shadow: 0 0 0 3px rgba(196,98,45,0.12); }
   .search-icon {
-    position: absolute;
-    left: 11px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 12px;
-    color: var(--cinza);
-    pointer-events: none;
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    font-size: 12px; color: var(--cinza); pointer-events: none;
   }
 
   /* ── STATS ── */
   .stats-bar {
-    padding: 8px 32px;
-    background: var(--areia);
+    padding: 8px 32px; background: var(--areia);
     border-bottom: 1px solid #D4C4A0;
-    font-size: 11px;
-    color: var(--cinza);
-    display: flex;
-    gap: 18px;
-    align-items: center;
-    flex-wrap: wrap;
-    min-height: 34px;
+    font-size: 11px; color: var(--cinza);
+    display: flex; gap: 18px; align-items: center; flex-wrap: wrap; min-height: 34px;
   }
-
   .stat-item { display: flex; align-items: center; gap: 5px; }
   .stat-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
   /* ── MAIN ── */
-  main {
-    padding: 24px 32px 32px;
-    max-width: 1000px;
-  }
-
-  /* ── STATES ── */
-  .loading-state, .empty-state {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--cinza);
-  }
-
+  main { padding: 24px 32px 32px; max-width: 1000px; }
+  .loading-state, .empty-state { text-align: center; padding: 80px 20px; color: var(--cinza); }
   .loading-spinner {
-    width: 36px;
-    height: 36px;
-    border: 3px solid var(--casca);
-    border-top-color: var(--terra);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 18px;
+    width: 36px; height: 36px; border: 3px solid var(--casca);
+    border-top-color: var(--terra); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 18px;
   }
-
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 16px;
-    color: var(--cinza);
-  }
-
+  .loading-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; }
   .empty-icon { font-size: 40px; margin-bottom: 14px; }
 
-  /* ── ARTICLES ── */
+  /* ── CARDS ── */
   .articles-grid { display: grid; gap: 12px; }
-
   .section-head {
-    font-size: 10px;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
-    color: var(--cinza);
-    margin: 22px 0 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
+    font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase;
+    color: var(--cinza); margin: 22px 0 10px;
+    display: flex; align-items: center; gap: 10px; font-weight: 600;
   }
-  .section-head::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #D4C4A0;
-  }
-
+  .section-head::after { content: ''; flex: 1; height: 1px; background: #D4C4A0; }
   .count-pill {
-    background: var(--terra);
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 10px;
-    letter-spacing: 0;
+    background: var(--terra); color: white;
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
   }
-
   .article-card {
-    background: var(--branco);
-    border: 1px solid #D8C8A8;
-    border-radius: 6px;
-    padding: 14px 18px;
+    background: var(--branco); border: 1px solid #D8C8A8; border-radius: 6px;
+    padding: 14px 18px; border-left: 4px solid var(--terra);
     transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
-    border-left: 4px solid var(--terra);
     animation: fadeUp 0.25s ease both;
   }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .article-card:hover { border-color: #B8A880; box-shadow: 0 3px 12px rgba(44,24,16,0.08); transform: translateY(-1px); }
+  .article-card.selected {
+    background: #FFFBF0;
+    border-color: var(--ouro) !important;
+    border-left-color: var(--ouro) !important;
+    box-shadow: 0 2px 8px rgba(184,134,11,0.14);
   }
-
-  .article-card:hover {
-    border-color: #B8A880;
-    box-shadow: 0 3px 12px rgba(44,24,16,0.08);
-    transform: translateY(-1px);
-  }
-
-  .card-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 7px;
-    flex-wrap: wrap;
-  }
-
+  .card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; flex-wrap: wrap; }
   .source-badge {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    padding: 2px 9px;
-    border-radius: 3px;
-    color: white;
-    flex-shrink: 0;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; padding: 2px 9px; border-radius: 3px;
+    color: white; flex-shrink: 0;
   }
-
   .card-date { font-size: 11px; color: var(--cinza); }
-
   .relevance-badge {
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 3px;
-    background: #E8F4E8;
-    color: var(--verde);
-    border: 1px solid #A8C8A0;
-    margin-left: auto;
-    white-space: nowrap;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 3px;
+    background: #E8F4E8; color: var(--verde); border: 1px solid #A8C8A0;
+    white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis;
   }
-
+  .btn-select {
+    margin-left: auto; background: none; border: 1.5px solid #C4B090;
+    border-radius: 4px; padding: 3px 10px; font-size: 11px; font-weight: 600;
+    font-family: 'Instrument Sans', sans-serif; color: var(--cinza);
+    cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0;
+  }
+  .btn-select:hover { border-color: var(--ouro); color: var(--ouro); }
+  .article-card.selected .btn-select { background: var(--ouro); border-color: var(--ouro); color: white; }
+  .article-card.selected .btn-select:hover { background: #9A7009; }
   .card-title {
     font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.45;
-    margin-bottom: 6px;
+    font-size: 15px; font-weight: 500; line-height: 1.45; margin-bottom: 6px;
   }
-
-  .card-title a {
-    color: var(--sombra);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
+  .card-title a { color: var(--sombra); text-decoration: none; transition: color 0.15s; }
   .card-title a:hover { color: var(--terra); }
-
   .card-desc {
-    font-size: 12.5px;
-    line-height: 1.6;
-    color: #5A4A3A;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 12.5px; line-height: 1.6; color: #5A4A3A;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
+  mark.highlight { background: #FFF3CC; border-radius: 2px; padding: 0 1px; font-weight: 700; color: inherit; }
 
-  mark.highlight {
-    background: #FFF3CC;
-    border-radius: 2px;
-    padding: 0 1px;
-    font-weight: 700;
-    color: inherit;
+  /* ── CORES DAS FONTES ── */
+  .src-asa          { background: #C4622D; }
+  .src-brasildefato { background: #8B2E2E; }
+  .src-agpublica    { background: #2E5D8B; }
+  .src-mongabay     { background: #2E7D32; }
+  .src-oeco         { background: #558B2F; }
+  .src-agbrasil     { background: #5D4037; }
+  .card-asa          { border-left-color: #C4622D; }
+  .card-brasildefato { border-left-color: #8B2E2E; }
+  .card-agpublica    { border-left-color: #2E5D8B; }
+  .card-mongabay     { border-left-color: #2E7D32; }
+  .card-oeco         { border-left-color: #558B2F; }
+  .card-agbrasil     { border-left-color: #5D4037; }
+
+  /* ── PAINEL SELEÇÃO ── */
+  .selection-panel {
+    background: #FFFBF0; border: 1.5px solid var(--ouro);
+    border-radius: 8px; padding: 20px 22px;
   }
+  .selection-panel-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .selection-panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-weight: 700; color: var(--sombra);
+  }
+  .selection-panel-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+  .btn-copy {
+    background: var(--verde); color: white; border: none;
+    padding: 7px 14px; border-radius: 4px;
+    font-family: 'Instrument Sans', sans-serif; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: background 0.15s;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .btn-copy:hover { background: #3A5531; }
+  .btn-copy.copied { background: #2E7D32; }
+  .btn-clear-sel {
+    background: none; border: 1.5px solid #C4B090; color: var(--cinza);
+    padding: 6px 12px; border-radius: 4px;
+    font-family: 'Instrument Sans', sans-serif; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn-clear-sel:hover { border-color: var(--erro); color: var(--erro); }
+  .selection-list { display: grid; gap: 8px; }
+  .sel-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px; background: white;
+    border: 1px solid #E0D0A8; border-radius: 5px;
+  }
+  .sel-num { font-size: 11px; font-weight: 700; color: var(--ouro); min-width: 20px; margin-top: 2px; }
+  .sel-content { flex: 1; min-width: 0; }
+  .sel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px; font-weight: 500; line-height: 1.4; margin-bottom: 4px;
+  }
+  .sel-title a { color: var(--sombra); text-decoration: none; }
+  .sel-title a:hover { color: var(--terra); }
+  .sel-meta { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .sel-date { font-size: 10px; color: var(--cinza); }
+  .btn-unselect {
+    background: none; border: none; font-size: 14px;
+    cursor: pointer; color: #C4B090; transition: color 0.15s; padding: 2px; flex-shrink: 0;
+  }
+  .btn-unselect:hover { color: var(--erro); }
 
-  /* ── SOURCE COLORS ── */
-  .src-asa         { background: #C4622D; }
-  .src-brasildefato{ background: #8B2E2E; }
-  .src-agpublica   { background: #2E5D8B; }
-  .src-mongabay    { background: #2E7D32; }
-  .src-oeco        { background: #558B2F; }
-  .src-agbrasil    { background: #5D4037; }
-
-  .card-asa         { border-left-color: #C4622D; }
-  .card-brasildefato{ border-left-color: #8B2E2E; }
-  .card-agpublica   { border-left-color: #2E5D8B; }
-  .card-mongabay    { border-left-color: #2E7D32; }
-  .card-oeco        { border-left-color: #558B2F; }
-  .card-agbrasil    { border-left-color: #5D4037; }
-
-  /* ── ERRORS ── */
+  /* ── ERRO ── */
   .error-card {
-    background: #FDF0F0;
-    border: 1px solid #E0B0B0;
-    border-left: 4px solid var(--erro);
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-size: 12px;
-    color: var(--erro);
-    margin-bottom: 8px;
+    background: #FDF0F0; border: 1px solid #E0B0B0;
+    border-left: 4px solid var(--erro); border-radius: 6px;
+    padding: 10px 14px; font-size: 12px; color: var(--erro); margin-bottom: 8px;
   }
 
   /* ── FOOTER ── */
   footer {
-    font-size: 11px;
-    color: var(--cinza);
-    text-align: center;
-    padding: 20px 32px 28px;
-    border-top: 1px solid #D4C4A0;
-    margin-top: 8px;
-    line-height: 1.8;
+    font-size: 11px; color: var(--cinza); text-align: center;
+    padding: 20px 32px 28px; border-top: 1px solid #D4C4A0;
+    margin-top: 8px; line-height: 1.8;
   }
-
   footer a { color: var(--terra); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
-    header, .filters, .stats-bar, main { padding-left: 16px; padding-right: 16px; }
+    header, .filters, .stats-bar, main, .view-tabs { padding-left: 16px; padding-right: 16px; }
     .search-input { width: 150px; }
     .header-title { font-size: 18px; }
     .search-wrap { margin-left: 0; margin-top: 4px; }
@@ -430,28 +321,33 @@
 </head>
 <body>
 
-<!-- ── HEADER ── -->
 <header>
   <div class="header-top">
-    <div class="header-brand">
-      <div>
-        <div class="header-title">
-          <a href="https://semiaridovivo.com">🌵 Semiárido Vivo</a>
-        </div>
-        <div class="header-sub">Painel de Fontes · Newsletter Quinzenal</div>
-      </div>
+    <div>
+      <div class="header-title"><a href="https://semiaridovivo.com">🌵 Semiárido Vivo</a></div>
+      <div class="header-sub">Painel de Fontes · Newsletter Quinzenal</div>
     </div>
     <div class="header-actions">
       <span class="last-update" id="lastUpdate">—</span>
-      <a href="https://semiaridovivo.com" class="btn btn-ghost">← Voltar ao site</a>
+      <button class="btn btn-selection empty" id="btnVerSelecao" onclick="setView('selecao')">
+        ★ Selecionadas <span class="selection-count" id="selCount">0</span>
+      </button>
+      <a href="https://semiaridovivo.com" class="btn btn-ghost">← Site</a>
       <button class="btn btn-primary" id="btnRefresh" onclick="loadAll()">↺ Atualizar</button>
     </div>
   </div>
   <div class="source-chips" id="sourceFilters"></div>
 </header>
 
-<!-- ── KEYWORD FILTERS ── -->
-<div class="filters">
+<div class="view-tabs">
+  <div class="view-tab active" data-view="todas"     onclick="setView('todas')">Todas as notícias</div>
+  <div class="view-tab"        data-view="semiarido" onclick="setView('semiarido')">🌿 Semiárido em foco</div>
+  <div class="view-tab"        data-view="selecao"   onclick="setView('selecao')">
+    ★ Para a edição <span class="tab-badge" id="tabBadge">0</span>
+  </div>
+</div>
+
+<div class="filters" id="filtersBar">
   <span class="filter-label">Tema:</span>
   <div id="kwFilters" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
   <div class="search-wrap">
@@ -461,10 +357,8 @@
   </div>
 </div>
 
-<!-- ── STATS ── -->
 <div class="stats-bar" id="statsBar"></div>
 
-<!-- ── CONTENT ── -->
 <main id="main">
   <div class="loading-state">
     <div class="loading-spinner"></div>
@@ -472,7 +366,6 @@
   </div>
 </main>
 
-<!-- ── FOOTER ── -->
 <footer id="footer" style="display:none">
   <strong>News do Semiárido Vivo</strong> · Curadoria quinzenal com perspectiva decolonial<br>
   Fontes: ASA Brasil · Brasil de Fato · Agência Pública · Mongabay · ((o))eco · Agência Brasil<br>
@@ -480,214 +373,225 @@
 </footer>
 
 <script>
-/* ── CONFIGURAÇÃO ── */
+/* ══════════════════════════════════════════
+   CONFIGURAÇÃO — edite aqui para personalizar
+   ══════════════════════════════════════════ */
+
+/* Para adicionar uma nova fonte, copie um objeto e ajuste id, label, cls, cardCls e url */
 const SOURCES = [
-  {
-    id: 'asa',
-    label: 'ASA Brasil',
-    cls: 'src-asa',
-    cardCls: 'card-asa',
-    url: 'https://asabrasil.org.br/feed',
-  },
-  {
-    id: 'brasildefato',
-    label: 'Brasil de Fato',
-    cls: 'src-brasildefato',
-    cardCls: 'card-brasildefato',
-    url: 'https://brasildefato.com.br/feed',
-  },
-  {
-    id: 'agpublica',
-    label: 'Agência Pública',
-    cls: 'src-agpublica',
-    cardCls: 'card-agpublica',
-    url: 'https://apublica.org/feed/',
-  },
-  {
-    id: 'mongabay',
-    label: 'Mongabay',
-    cls: 'src-mongabay',
-    cardCls: 'card-mongabay',
-    url: 'https://brasil.mongabay.com/feed/',
-  },
-  {
-    id: 'oeco',
-    label: '((o))eco',
-    cls: 'src-oeco',
-    cardCls: 'card-oeco',
-    url: 'https://oeco.org.br/feed/',
-  },
-  {
-    id: 'agbrasil',
-    label: 'Agência Brasil',
-    cls: 'src-agbrasil',
-    cardCls: 'card-agbrasil',
-    url: 'https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml',
-  },
+  { id:'asa',          label:'ASA Brasil',      cls:'src-asa',          cardCls:'card-asa',          url:'https://asabrasil.org.br/feed' },
+  { id:'brasildefato', label:'Brasil de Fato',  cls:'src-brasildefato', cardCls:'card-brasildefato', url:'https://brasildefato.com.br/feed' },
+  { id:'agpublica',    label:'Agência Pública', cls:'src-agpublica',    cardCls:'card-agpublica',    url:'https://apublica.org/feed/' },
+  { id:'mongabay',     label:'Mongabay',        cls:'src-mongabay',     cardCls:'card-mongabay',     url:'https://brasil.mongabay.com/feed/' },
+  { id:'oeco',         label:'((o))eco',        cls:'src-oeco',         cardCls:'card-oeco',         url:'https://oeco.org.br/feed/' },
+  { id:'agbrasil',     label:'Agência Brasil',  cls:'src-agbrasil',     cardCls:'card-agbrasil',     url:'https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml' },
 ];
 
-/* Adicionar nova fonte: inclua um objeto nessa lista seguindo o mesmo formato. */
-
+/* Palavras-chave para detecção automática de relevância */
 const KEYWORDS = [
   'semiárido','caatinga','nordeste','seca','cisterna',
   'agroecologia','quilombola','sementes crioulas','convivência',
   'cerrado','desertificação','eólica','solar','água','agricultura familiar',
 ];
-
 const KW_DISPLAY = [
   'Semiárido','Caatinga','Nordeste','Seca','Cisternas',
   'Agroecologia','Quilombola','Sementes','Convivência',
   'Cerrado','Desertificação','Energia','Água','Agri. Familiar',
 ];
 
-const PROXY = 'https://api.allorigins.win/get?url=';
+/* Cores para os badges de fonte no painel de seleção */
+const SOURCE_COLORS = {
+  asa:'#C4622D', brasildefato:'#8B2E2E', agpublica:'#2E5D8B',
+  mongabay:'#2E7D32', oeco:'#558B2F', agbrasil:'#5D4037',
+};
 
-/* ── ESTADO ── */
-let allArticles = [];
-let activeSources = new Set(SOURCES.map(s => s.id));
+/* ══════════════════════════════════════════ */
+
+const PROXY  = 'https://api.allorigins.win/get?url=';
+const LS_KEY = 'semiarido_vivo_selecao';
+
+let allArticles    = [];
+let activeSources  = new Set(SOURCES.map(s => s.id));
 let activeKeywords = new Set();
-let errors = [];
+let errors         = [];
+let currentView    = 'todas';
+let selected       = loadSelected();
 
-/* ── INICIALIZAÇÃO ── */
-function buildFilters() {
-  document.getElementById('sourceFilters').innerHTML = SOURCES.map(s => `
-    <span class="chip chip-source active" data-src="${s.id}"
-          onclick="toggleSource('${s.id}', this)">${s.label}</span>
-  `).join('');
-
-  document.getElementById('kwFilters').innerHTML = KW_DISPLAY.map((k, i) => `
-    <span class="chip chip-keyword" data-kw="${KEYWORDS[i]}"
-          onclick="toggleKw('${KEYWORDS[i]}', this)">${k}</span>
-  `).join('');
+/* ── PERSISTÊNCIA ── */
+function loadSelected() {
+  try { return new Map(JSON.parse(localStorage.getItem(LS_KEY) || '[]')); }
+  catch { return new Map(); }
+}
+function saveSelected() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify([...selected.entries()])); }
+  catch(e) { console.warn('localStorage indisponível:', e); }
 }
 
 /* ── FILTROS ── */
+function buildFilters() {
+  document.getElementById('sourceFilters').innerHTML = SOURCES.map(s => `
+    <span class="chip chip-source active" data-src="${s.id}"
+          onclick="toggleSource('${s.id}',this)">${s.label}</span>
+  `).join('');
+  document.getElementById('kwFilters').innerHTML = KW_DISPLAY.map((k,i) => `
+    <span class="chip chip-keyword" data-kw="${KEYWORDS[i]}"
+          onclick="toggleKw('${KEYWORDS[i]}',this)">${k}</span>
+  `).join('');
+}
+
 function toggleSource(id, el) {
   if (activeSources.has(id)) {
     if (activeSources.size === 1) return;
-    activeSources.delete(id);
-    el.classList.remove('active');
+    activeSources.delete(id); el.classList.remove('active');
   } else {
-    activeSources.add(id);
-    el.classList.add('active');
+    activeSources.add(id); el.classList.add('active');
   }
   render();
 }
 
 function toggleKw(kw, el) {
-  if (activeKeywords.has(kw)) {
-    activeKeywords.delete(kw);
-    el.classList.remove('active');
-  } else {
-    activeKeywords.add(kw);
-    el.classList.add('active');
-  }
+  if (activeKeywords.has(kw)) { activeKeywords.delete(kw); el.classList.remove('active'); }
+  else { activeKeywords.add(kw); el.classList.add('active'); }
   render();
 }
 
-/* ── PARSING ── */
-function parseRSS(xmlText, source) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(xmlText, 'text/xml');
-  const items = doc.querySelectorAll('item');
-  const articles = [];
-  items.forEach(item => {
-    const title = item.querySelector('title')?.textContent?.trim() || '';
-    const link  = item.querySelector('link')?.textContent?.trim() || '';
-    const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
-    const desc  = (item.querySelector('description')?.textContent || '')
-                    .replace(/<[^>]*>/g, '').trim();
-    if (title && link) {
-      articles.push({
-        title,
-        link,
-        pubDate: pub ? new Date(pub) : new Date(0),
-        desc: desc.substring(0, 220),
-        source,
-      });
-    }
-  });
-  return articles;
+function setView(v) {
+  currentView = v;
+  document.querySelectorAll('.view-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.view === v)
+  );
+  const hide = v === 'selecao';
+  document.getElementById('filtersBar').style.display = hide ? 'none' : '';
+  document.getElementById('statsBar').style.display   = hide ? 'none' : '';
+  render();
 }
 
 /* ── RELEVÂNCIA ── */
-function normalize(str) {
-  return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+function norm(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+function getMatchedKeywords(a) {
+  const text = norm(a.title + ' ' + a.desc);
+  return KEYWORDS.filter(k => text.includes(norm(k)));
+}
+function isRelevant(a) {
+  return a.source.id === 'asa' || getMatchedKeywords(a).length > 0;
 }
 
-function getMatchedKeywords(article) {
-  const text = normalize(article.title + ' ' + article.desc);
-  return KEYWORDS.filter(k => text.includes(normalize(k)));
+/* ── SELEÇÃO ── */
+function toggleSelect(encodedLink) {
+  const link = decodeURIComponent(encodedLink);
+  if (selected.has(link)) {
+    selected.delete(link);
+  } else {
+    const a = allArticles.find(x => x.link === link);
+    if (a) selected.set(link, {
+      title: a.title, link: a.link,
+      pubDate: a.pubDate instanceof Date ? a.pubDate.toISOString() : null,
+      desc: a.desc,
+      source: { id: a.source.id, label: a.source.label },
+    });
+  }
+  saveSelected();
+  updateSelectionUI();
+  render();
 }
 
-function isRelevant(article) {
-  return article.source.id === 'asa' || getMatchedKeywords(article).length > 0;
+function clearSelection() {
+  if (!confirm('Limpar todas as notícias selecionadas?')) return;
+  selected.clear(); saveSelected(); updateSelectionUI(); render();
 }
 
-/* ── HIGHLIGHT ── */
-function highlight(text, query) {
+function updateSelectionUI() {
+  const n = selected.size;
+  document.getElementById('selCount').textContent = n;
+  document.getElementById('btnVerSelecao').classList.toggle('empty', n === 0);
+  const badge = document.getElementById('tabBadge');
+  badge.textContent = n;
+  badge.classList.toggle('visible', n > 0);
+}
+
+/* ── COPIAR SELEÇÃO ── */
+function copySelection() {
+  const items = [...selected.values()];
+  const lines = items.map((a,i) => {
+    const d = a.pubDate ? new Date(a.pubDate) : null;
+    const date = d && !isNaN(d)
+      ? d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'2-digit'})
+      : '—';
+    return `${i+1}. [${a.source.label}] ${a.title}\n   ${date} — ${a.link}`;
+  }).join('\n\n');
+
+  navigator.clipboard.writeText(
+    `📋 Seleção para a Edição — News do Semiárido Vivo\n${'─'.repeat(50)}\n\n${lines}`
+  ).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    if (!btn) return;
+    btn.textContent = '✓ Copiado!'; btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = '📋 Copiar lista'; btn.classList.remove('copied'); }, 2200);
+  }).catch(() => alert('Não foi possível copiar automaticamente.'));
+}
+
+/* ── HELPERS ── */
+function hl(text, query) {
   if (!query) return text;
-  const re = new RegExp(
-    `(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'
+  return text.replace(
+    new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'),
+    '<mark class="highlight">$1</mark>'
   );
-  return text.replace(re, '<mark class="highlight">$1</mark>');
 }
 
-/* ── DATA ── */
-function formatDate(d) {
-  if (!d || d.getTime() === 0) return '—';
-  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: '2-digit' });
+function fmtDate(d) {
+  if (!d) return '—';
+  const dt = d instanceof Date ? d : new Date(d);
+  return isNaN(dt) ? '—'
+    : dt.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'2-digit'});
 }
 
 /* ── RENDER ── */
 function render() {
-  const query = normalize(document.getElementById('searchInput').value.trim());
+  const main = document.getElementById('main');
 
-  const filtered = allArticles.filter(a => {
+  if (currentView === 'selecao') { renderSelecao(main); return; }
+
+  const query = norm(document.getElementById('searchInput').value.trim());
+
+  let filtered = allArticles.filter(a => {
     if (!activeSources.has(a.source.id)) return false;
     if (activeKeywords.size > 0) {
-      const matched = getMatchedKeywords(a);
-      if (!Array.from(activeKeywords).some(k => matched.includes(k))) return false;
+      const m = getMatchedKeywords(a);
+      if (!Array.from(activeKeywords).some(k => m.includes(k))) return false;
     }
-    if (query) {
-      const t = normalize(a.title + ' ' + a.desc);
-      if (!t.includes(query)) return false;
-    }
+    if (query && !norm(a.title + ' ' + a.desc).includes(query)) return false;
     return true;
   });
 
-  const relevant = filtered.filter(isRelevant);
-  const general  = filtered.filter(a => !isRelevant(a));
-  const main     = document.getElementById('main');
+  if (currentView === 'semiarido') filtered = filtered.filter(isRelevant);
 
-  if (filtered.length === 0) {
-    main.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">🌵</div>
-        <div class="loading-text">Nenhuma notícia encontrada com esses filtros.</div>
-      </div>`;
-    updateStats([]);
-    return;
+  if (!filtered.length) {
+    main.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">🌵</div>
+      <div class="loading-text">Nenhuma notícia encontrada com esses filtros.</div>
+    </div>`;
+    updateStats([]); return;
   }
 
-  let html = errors.map(e =>
-    `<div class="error-card">⚠️ ${e}</div>`
-  ).join('');
+  let html = errors.map(e => `<div class="error-card">⚠️ ${e}</div>`).join('');
 
-  if (relevant.length > 0) {
-    html += `<div class="section-head">
-      🌿 Semiárido em foco
-      <span class="count-pill">${relevant.length}</span>
-    </div>`;
-    html += relevant.map(a => cardHTML(a, query)).join('');
-  }
-
-  if (general.length > 0) {
-    html += `<div class="section-head">
-      📰 Outros temas
-      <span class="count-pill">${general.length}</span>
-    </div>`;
-    html += general.map(a => cardHTML(a, query)).join('');
+  if (currentView === 'todas') {
+    const rel = filtered.filter(isRelevant);
+    const gen = filtered.filter(a => !isRelevant(a));
+    if (rel.length) {
+      html += `<div class="section-head">🌿 Semiárido em foco <span class="count-pill">${rel.length}</span></div>`;
+      html += rel.map(a => cardHTML(a, query)).join('');
+    }
+    if (gen.length) {
+      html += `<div class="section-head">📰 Outros temas <span class="count-pill">${gen.length}</span></div>`;
+      html += gen.map(a => cardHTML(a, query)).join('');
+    }
+  } else {
+    html += `<div class="section-head">🌿 Semiárido em foco <span class="count-pill">${filtered.length}</span></div>`;
+    html += filtered.map(a => cardHTML(a, query)).join('');
   }
 
   main.innerHTML = `<div class="articles-grid">${html}</div>`;
@@ -695,47 +599,110 @@ function render() {
   updateStats(filtered);
 }
 
-function cardHTML(a, query) {
+function cardHTML(a, query='') {
   const matched = getMatchedKeywords(a);
-  const titleHL = highlight(a.title, query);
-  const descHL  = highlight(a.desc,  query);
-
+  const isSel   = selected.has(a.link);
+  const enc     = encodeURIComponent(a.link);
   return `
-    <div class="article-card ${a.source.cardCls}">
+    <div class="article-card ${a.source.cardCls}${isSel?' selected':''}">
       <div class="card-meta">
         <span class="source-badge ${a.source.cls}">${a.source.label}</span>
-        <span class="card-date">${formatDate(a.pubDate)}</span>
-        ${matched.length > 0
-          ? `<span class="relevance-badge">🌵 ${matched.slice(0,2).join(' · ')}</span>`
-          : ''}
+        <span class="card-date">${fmtDate(a.pubDate)}</span>
+        ${matched.length ? `<span class="relevance-badge">🌵 ${matched.slice(0,2).join(' · ')}</span>` : ''}
+        <button class="btn-select" onclick="toggleSelect('${enc}')">
+          ${isSel ? '★ Selecionada' : '☆ Selecionar'}
+        </button>
       </div>
       <div class="card-title">
-        <a href="${a.link}" target="_blank" rel="noopener noreferrer">${titleHL}</a>
+        <a href="${a.link}" target="_blank" rel="noopener noreferrer">${hl(a.title,query)}</a>
       </div>
-      ${a.desc ? `<div class="card-desc">${descHL}</div>` : ''}
+      ${a.desc ? `<div class="card-desc">${hl(a.desc,query)}</div>` : ''}
     </div>`;
 }
 
-function updateStats(filtered) {
-  const bySource    = {};
-  filtered.forEach(a => { bySource[a.source.id] = (bySource[a.source.id] || 0) + 1; });
-  const relevantCnt = filtered.filter(isRelevant).length;
+function renderSelecao(main) {
+  if (!selected.size) {
+    main.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">☆</div>
+      <div class="loading-text">Nenhuma notícia selecionada ainda.</div>
+      <p style="margin-top:10px;font-size:13px;color:var(--cinza)">
+        Clique em <strong>☆ Selecionar</strong> em qualquer notícia para adicioná-la aqui.
+      </p>
+    </div>`;
+    return;
+  }
 
+  const items = [...selected.values()];
+  const list  = items.map((a,i) => {
+    const color = SOURCE_COLORS[a.source.id] || '#666';
+    const enc   = encodeURIComponent(a.link);
+    return `
+      <div class="sel-item">
+        <span class="sel-num">${i+1}</span>
+        <div class="sel-content">
+          <div class="sel-title">
+            <a href="${a.link}" target="_blank" rel="noopener">${a.title}</a>
+          </div>
+          <div class="sel-meta">
+            <span style="background:${color};color:white;padding:1px 7px;border-radius:3px;
+                         font-size:10px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase">
+              ${a.source.label}
+            </span>
+            <span class="sel-date">${fmtDate(a.pubDate)}</span>
+          </div>
+        </div>
+        <button class="btn-unselect" title="Remover" onclick="toggleSelect('${enc}')">✕</button>
+      </div>`;
+  }).join('');
+
+  main.innerHTML = `
+    <div class="selection-panel">
+      <div class="selection-panel-header">
+        <div class="selection-panel-title">★ Selecionadas para a edição (${items.length})</div>
+        <div class="selection-panel-actions">
+          <button class="btn-copy" onclick="copySelection()">📋 Copiar lista</button>
+          <button class="btn-clear-sel" onclick="clearSelection()">Limpar tudo</button>
+        </div>
+      </div>
+      <div class="selection-list">${list}</div>
+    </div>`;
+
+  document.getElementById('footer').style.display = 'block';
+}
+
+function updateStats(filtered) {
+  const by = {};
+  filtered.forEach(a => { by[a.source.id] = (by[a.source.id]||0)+1; });
+  const relCnt = filtered.filter(isRelevant).length;
   document.getElementById('statsBar').innerHTML = `
     <span class="stat-item"><strong>${filtered.length}</strong>&nbsp;notícias</span>
     <span class="stat-item">
       <span class="stat-dot" style="background:var(--verde)"></span>
-      <strong>${relevantCnt}</strong>&nbsp;sobre Semiárido
+      <strong>${relCnt}</strong>&nbsp;sobre Semiárido
     </span>
-    ${SOURCES.filter(s => bySource[s.id]).map(s => `
-      <span class="stat-item">
-        <span class="stat-dot ${s.cls}"></span>
-        ${bySource[s.id]} ${s.label}
-      </span>`).join('')}
-  `;
+    ${SOURCES.filter(s => by[s.id]).map(s =>
+      `<span class="stat-item"><span class="stat-dot ${s.cls}"></span>${by[s.id]} ${s.label}</span>`
+    ).join('')}`;
 }
 
 /* ── FETCH ── */
+function parseRSS(xml, source) {
+  const doc = new DOMParser().parseFromString(xml, 'text/xml');
+  return [...doc.querySelectorAll('item')].reduce((acc, item) => {
+    const title = item.querySelector('title')?.textContent?.trim() || '';
+    const link  = item.querySelector('link')?.textContent?.trim() || '';
+    const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
+    const desc  = (item.querySelector('description')?.textContent||'').replace(/<[^>]*>/g,'').trim();
+    if (title && link) acc.push({
+      title, link,
+      pubDate: pub ? new Date(pub) : new Date(0),
+      desc: desc.substring(0,220),
+      source,
+    });
+    return acc;
+  }, []);
+}
+
 async function fetchSource(source) {
   try {
     const res  = await fetch(`${PROXY}${encodeURIComponent(source.url)}`);
@@ -743,7 +710,7 @@ async function fetchSource(source) {
     const json = await res.json();
     if (!json.contents) throw new Error('sem conteúdo');
     return parseRSS(json.contents, source);
-  } catch (e) {
+  } catch(e) {
     errors.push(`Não foi possível carregar ${source.label} (${e.message}).`);
     return [];
   }
@@ -751,33 +718,31 @@ async function fetchSource(source) {
 
 async function loadAll() {
   const btn = document.getElementById('btnRefresh');
-  btn.disabled = true;
-  btn.textContent = '…';
-  errors = [];
-  allArticles = [];
+  btn.disabled = true; btn.textContent = '…';
+  errors = []; allArticles = [];
 
-  document.getElementById('main').innerHTML = `
-    <div class="loading-state">
-      <div class="loading-spinner"></div>
-      <div class="loading-text">Buscando as notícias do território…</div>
-    </div>`;
+  if (currentView !== 'selecao') {
+    document.getElementById('main').innerHTML = `
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Buscando as notícias do território…</div>
+      </div>`;
+  }
 
   const results = await Promise.all(SOURCES.map(fetchSource));
   results.forEach(arr => allArticles.push(...arr));
-  allArticles.sort((a, b) => b.pubDate - a.pubDate);
+  allArticles.sort((a,b) => b.pubDate - a.pubDate);
 
   const now = new Date();
   document.getElementById('lastUpdate').textContent =
-    `Atualizado às ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+    `Atualizado às ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`;
 
-  btn.disabled = false;
-  btn.textContent = '↺ Atualizar';
-
+  btn.disabled = false; btn.textContent = '↺ Atualizar';
   render();
 }
 
-/* ── START ── */
 buildFilters();
+updateSelectionUI();
 loadAll();
 </script>
 </body>
