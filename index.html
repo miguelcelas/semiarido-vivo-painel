@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Fontes — News do Semiárido Vivo</title>
+<meta name="description" content="Painel de curadoria de notícias sobre o Semiárido brasileiro. Fontes: ASA Brasil, Brasil de Fato, Agência Pública, Mongabay, ((o))eco, Agência Brasil.">
+<meta property="og:title" content="Painel de Fontes — Semiárido Vivo">
+<meta property="og:description" content="Curadoria quinzenal com perspectiva decolonial sobre o Semiárido brasileiro.">
+<meta property="og:url" content="https://semiaridovivo.com/painel">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --terra: #C4622D;
+    --ocre: #B8860B;
+    --verde: #4A6741;
+    --areia: #F5EDD6;
+    --casca: #E8D5B0;
+    --sombra: #2C1810;
+    --cinza: #7A6A5A;
+    --branco: #FDFAF4;
+    --erro: #8B2E2E;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--branco);
+    color: var(--sombra);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--sombra);
+    padding: 20px 32px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--terra);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .header-brand { display: flex; align-items: baseline; gap: 10px; }
+
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--areia);
+    letter-spacing: -0.3px;
+  }
+
+  .header-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .header-title a:hover { color: var(--casca); }
+
+  .header-sub {
+    font-size: 10px;
+    color: #6A5A4A;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+    flex-wrap: wrap;
+  }
+
+  .last-update {
+    font-size: 11px;
+    color: #6A5A4A;
+  }
+
+  .btn {
+    border: none;
+    padding: 7px 16px;
+    border-radius: 4px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, opacity 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .btn-primary { background: var(--terra); color: var(--areia); }
+  .btn-primary:hover { background: #A8501F; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--casca);
+    border: 1.5px solid #4A3828;
+  }
+  .btn-ghost:hover { border-color: var(--terra); color: var(--terra); }
+
+  .source-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  /* ── FILTERS BAR ── */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px 32px;
+    background: var(--casca);
+    border-bottom: 1px solid #D4C4A0;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--cinza);
+    margin-right: 2px;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  .chip {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .chip-source {
+    background: var(--branco);
+    border-color: #C4B090;
+    color: var(--sombra);
+  }
+  .chip-source.active {
+    background: var(--sombra);
+    color: var(--areia);
+    border-color: var(--sombra);
+  }
+  .chip-source:hover:not(.active) { border-color: var(--terra); color: var(--terra); }
+
+  .chip-keyword { background: var(--branco); border-color: var(--verde); color: var(--verde); }
+  .chip-keyword.active { background: var(--verde); color: white; }
+  .chip-keyword:hover:not(.active) { background: #EBF4E8; }
+
+  .search-wrap {
+    margin-left: auto;
+    position: relative;
+  }
+
+  .search-input {
+    border: 1.5px solid #C4B090;
+    background: var(--branco);
+    padding: 6px 14px 6px 32px;
+    border-radius: 20px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    color: var(--sombra);
+    width: 220px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--terra);
+    box-shadow: 0 0 0 3px rgba(196,98,45,0.12);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: var(--cinza);
+    pointer-events: none;
+  }
+
+  /* ── STATS ── */
+  .stats-bar {
+    padding: 8px 32px;
+    background: var(--areia);
+    border-bottom: 1px solid #D4C4A0;
+    font-size: 11px;
+    color: var(--cinza);
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 34px;
+  }
+
+  .stat-item { display: flex; align-items: center; gap: 5px; }
+  .stat-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── MAIN ── */
+  main {
+    padding: 24px 32px 32px;
+    max-width: 1000px;
+  }
+
+  /* ── STATES ── */
+  .loading-state, .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--cinza);
+  }
+
+  .loading-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--casca);
+    border-top-color: var(--terra);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 18px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--cinza);
+  }
+
+  .empty-icon { font-size: 40px; margin-bottom: 14px; }
+
+  /* ── ARTICLES ── */
+  .articles-grid { display: grid; gap: 12px; }
+
+  .section-head {
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cinza);
+    margin: 22px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+  }
+  .section-head::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #D4C4A0;
+  }
+
+  .count-pill {
+    background: var(--terra);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0;
+  }
+
+  .article-card {
+    background: var(--branco);
+    border: 1px solid #D8C8A8;
+    border-radius: 6px;
+    padding: 14px 18px;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+    border-left: 4px solid var(--terra);
+    animation: fadeUp 0.25s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .article-card:hover {
+    border-color: #B8A880;
+    box-shadow: 0 3px 12px rgba(44,24,16,0.08);
+    transform: translateY(-1px);
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    flex-wrap: wrap;
+  }
+
+  .source-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 2px 9px;
+    border-radius: 3px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .card-date { font-size: 11px; color: var(--cinza); }
+
+  .relevance-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: #E8F4E8;
+    color: var(--verde);
+    border: 1px solid #A8C8A0;
+    margin-left: auto;
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.45;
+    margin-bottom: 6px;
+  }
+
+  .card-title a {
+    color: var(--sombra);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .card-title a:hover { color: var(--terra); }
+
+  .card-desc {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #5A4A3A;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  mark.highlight {
+    background: #FFF3CC;
+    border-radius: 2px;
+    padding: 0 1px;
+    font-weight: 700;
+    color: inherit;
+  }
+
+  /* ── SOURCE COLORS ── */
+  .src-asa         { background: #C4622D; }
+  .src-brasildefato{ background: #8B2E2E; }
+  .src-agpublica   { background: #2E5D8B; }
+  .src-mongabay    { background: #2E7D32; }
+  .src-oeco        { background: #558B2F; }
+  .src-agbrasil    { background: #5D4037; }
+
+  .card-asa         { border-left-color: #C4622D; }
+  .card-brasildefato{ border-left-color: #8B2E2E; }
+  .card-agpublica   { border-left-color: #2E5D8B; }
+  .card-mongabay    { border-left-color: #2E7D32; }
+  .card-oeco        { border-left-color: #558B2F; }
+  .card-agbrasil    { border-left-color: #5D4037; }
+
+  /* ── ERRORS ── */
+  .error-card {
+    background: #FDF0F0;
+    border: 1px solid #E0B0B0;
+    border-left: 4px solid var(--erro);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--erro);
+    margin-bottom: 8px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    font-size: 11px;
+    color: var(--cinza);
+    text-align: center;
+    padding: 20px 32px 28px;
+    border-top: 1px solid #D4C4A0;
+    margin-top: 8px;
+    line-height: 1.8;
+  }
+
+  footer a { color: var(--terra); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    header, .filters, .stats-bar, main { padding-left: 16px; padding-right: 16px; }
+    .search-input { width: 150px; }
+    .header-title { font-size: 18px; }
+    .search-wrap { margin-left: 0; margin-top: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="header-top">
+    <div class="header-brand">
+      <div>
+        <div class="header-title">
+          <a href="https://semiaridovivo.com">🌵 Semiárido Vivo</a>
+        </div>
+        <div class="header-sub">Painel de Fontes · Newsletter Quinzenal</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="last-update" id="lastUpdate">—</span>
+      <a href="https://semiaridovivo.com" class="btn btn-ghost">← Voltar ao site</a>
+      <button class="btn btn-primary" id="btnRefresh" onclick="loadAll()">↺ Atualizar</button>
+    </div>
+  </div>
+  <div class="source-chips" id="sourceFilters"></div>
+</header>
+
+<!-- ── KEYWORD FILTERS ── -->
+<div class="filters">
+  <span class="filter-label">Tema:</span>
+  <div id="kwFilters" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchInput"
+           placeholder="Buscar nas notícias…" oninput="render()">
+  </div>
+</div>
+
+<!-- ── STATS ── -->
+<div class="stats-bar" id="statsBar"></div>
+
+<!-- ── CONTENT ── -->
+<main id="main">
+  <div class="loading-state">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Buscando as notícias do território…</div>
+  </div>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer id="footer" style="display:none">
+  <strong>News do Semiárido Vivo</strong> · Curadoria quinzenal com perspectiva decolonial<br>
+  Fontes: ASA Brasil · Brasil de Fato · Agência Pública · Mongabay · ((o))eco · Agência Brasil<br>
+  <a href="https://semiaridovivo.com">semiaridovivo.com</a>
+</footer>
+
+<script>
+/* ── CONFIGURAÇÃO ── */
+const SOURCES = [
+  {
+    id: 'asa',
+    label: 'ASA Brasil',
+    cls: 'src-asa',
+    cardCls: 'card-asa',
+    url: 'https://asabrasil.org.br/feed',
+  },
+  {
+    id: 'brasildefato',
+    label: 'Brasil de Fato',
+    cls: 'src-brasildefato',
+    cardCls: 'card-brasildefato',
+    url: 'https://brasildefato.com.br/feed',
+  },
+  {
+    id: 'agpublica',
+    label: 'Agência Pública',
+    cls: 'src-agpublica',
+    cardCls: 'card-agpublica',
+    url: 'https://apublica.org/feed/',
+  },
+  {
+    id: 'mongabay',
+    label: 'Mongabay',
+    cls: 'src-mongabay',
+    cardCls: 'card-mongabay',
+    url: 'https://brasil.mongabay.com/feed/',
+  },
+  {
+    id: 'oeco',
+    label: '((o))eco',
+    cls: 'src-oeco',
+    cardCls: 'card-oeco',
+    url: 'https://oeco.org.br/feed/',
+  },
+  {
+    id: 'agbrasil',
+    label: 'Agência Brasil',
+    cls: 'src-agbrasil',
+    cardCls: 'card-agbrasil',
+    url: 'https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml',
+  },
+];
+
+/* Adicionar nova fonte: inclua um objeto nessa lista seguindo o mesmo formato. */
+
+const KEYWORDS = [
+  'semiárido','caatinga','nordeste','seca','cisterna',
+  'agroecologia','quilombola','sementes crioulas','convivência',
+  'cerrado','desertificação','eólica','solar','água','agricultura familiar',
+];
+
+const KW_DISPLAY = [
+  'Semiárido','Caatinga','Nordeste','Seca','Cisternas',
+  'Agroecologia','Quilombola','Sementes','Convivência',
+  'Cerrado','Desertificação','Energia','Água','Agri. Familiar',
+];
+
+const PROXY = 'https://api.allorigins.win/get?url=';
+
+/* ── ESTADO ── */
+let allArticles = [];
+let activeSources = new Set(SOURCES.map(s => s.id));
+let activeKeywords = new Set();
+let errors = [];
+
+/* ── INICIALIZAÇÃO ── */
+function buildFilters() {
+  document.getElementById('sourceFilters').innerHTML = SOURCES.map(s => `
+    <span class="chip chip-source active" data-src="${s.id}"
+          onclick="toggleSource('${s.id}', this)">${s.label}</span>
+  `).join('');
+
+  document.getElementById('kwFilters').innerHTML = KW_DISPLAY.map((k, i) => `
+    <span class="chip chip-keyword" data-kw="${KEYWORDS[i]}"
+          onclick="toggleKw('${KEYWORDS[i]}', this)">${k}</span>
+  `).join('');
+}
+
+/* ── FILTROS ── */
+function toggleSource(id, el) {
+  if (activeSources.has(id)) {
+    if (activeSources.size === 1) return;
+    activeSources.delete(id);
+    el.classList.remove('active');
+  } else {
+    activeSources.add(id);
+    el.classList.add('active');
+  }
+  render();
+}
+
+function toggleKw(kw, el) {
+  if (activeKeywords.has(kw)) {
+    activeKeywords.delete(kw);
+    el.classList.remove('active');
+  } else {
+    activeKeywords.add(kw);
+    el.classList.add('active');
+  }
+  render();
+}
+
+/* ── PARSING ── */
+function parseRSS(xmlText, source) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlText, 'text/xml');
+  const items = doc.querySelectorAll('item');
+  const articles = [];
+  items.forEach(item => {
+    const title = item.querySelector('title')?.textContent?.trim() || '';
+    const link  = item.querySelector('link')?.textContent?.trim() || '';
+    const pub   = item.querySelector('pubDate')?.textContent?.trim() || '';
+    const desc  = (item.querySelector('description')?.textContent || '')
+                    .replace(/<[^>]*>/g, '').trim();
+    if (title && link) {
+      articles.push({
+        title,
+        link,
+        pubDate: pub ? new Date(pub) : new Date(0),
+        desc: desc.substring(0, 220),
+        source,
+      });
+    }
+  });
+  return articles;
+}
+
+/* ── RELEVÂNCIA ── */
+function normalize(str) {
+  return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function getMatchedKeywords(article) {
+  const text = normalize(article.title + ' ' + article.desc);
+  return KEYWORDS.filter(k => text.includes(normalize(k)));
+}
+
+function isRelevant(article) {
+  return article.source.id === 'asa' || getMatchedKeywords(article).length > 0;
+}
+
+/* ── HIGHLIGHT ── */
+function highlight(text, query) {
+  if (!query) return text;
+  const re = new RegExp(
+    `(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'
+  );
+  return text.replace(re, '<mark class="highlight">$1</mark>');
+}
+
+/* ── DATA ── */
+function formatDate(d) {
+  if (!d || d.getTime() === 0) return '—';
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: '2-digit' });
+}
+
+/* ── RENDER ── */
+function render() {
+  const query = normalize(document.getElementById('searchInput').value.trim());
+
+  const filtered = allArticles.filter(a => {
+    if (!activeSources.has(a.source.id)) return false;
+    if (activeKeywords.size > 0) {
+      const matched = getMatchedKeywords(a);
+      if (!Array.from(activeKeywords).some(k => matched.includes(k))) return false;
+    }
+    if (query) {
+      const t = normalize(a.title + ' ' + a.desc);
+      if (!t.includes(query)) return false;
+    }
+    return true;
+  });
+
+  const relevant = filtered.filter(isRelevant);
+  const general  = filtered.filter(a => !isRelevant(a));
+  const main     = document.getElementById('main');
+
+  if (filtered.length === 0) {
+    main.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🌵</div>
+        <div class="loading-text">Nenhuma notícia encontrada com esses filtros.</div>
+      </div>`;
+    updateStats([]);
+    return;
+  }
+
+  let html = errors.map(e =>
+    `<div class="error-card">⚠️ ${e}</div>`
+  ).join('');
+
+  if (relevant.length > 0) {
+    html += `<div class="section-head">
+      🌿 Semiárido em foco
+      <span class="count-pill">${relevant.length}</span>
+    </div>`;
+    html += relevant.map(a => cardHTML(a, query)).join('');
+  }
+
+  if (general.length > 0) {
+    html += `<div class="section-head">
+      📰 Outros temas
+      <span class="count-pill">${general.length}</span>
+    </div>`;
+    html += general.map(a => cardHTML(a, query)).join('');
+  }
+
+  main.innerHTML = `<div class="articles-grid">${html}</div>`;
+  document.getElementById('footer').style.display = 'block';
+  updateStats(filtered);
+}
+
+function cardHTML(a, query) {
+  const matched = getMatchedKeywords(a);
+  const titleHL = highlight(a.title, query);
+  const descHL  = highlight(a.desc,  query);
+
+  return `
+    <div class="article-card ${a.source.cardCls}">
+      <div class="card-meta">
+        <span class="source-badge ${a.source.cls}">${a.source.label}</span>
+        <span class="card-date">${formatDate(a.pubDate)}</span>
+        ${matched.length > 0
+          ? `<span class="relevance-badge">🌵 ${matched.slice(0,2).join(' · ')}</span>`
+          : ''}
+      </div>
+      <div class="card-title">
+        <a href="${a.link}" target="_blank" rel="noopener noreferrer">${titleHL}</a>
+      </div>
+      ${a.desc ? `<div class="card-desc">${descHL}</div>` : ''}
+    </div>`;
+}
+
+function updateStats(filtered) {
+  const bySource    = {};
+  filtered.forEach(a => { bySource[a.source.id] = (bySource[a.source.id] || 0) + 1; });
+  const relevantCnt = filtered.filter(isRelevant).length;
+
+  document.getElementById('statsBar').innerHTML = `
+    <span class="stat-item"><strong>${filtered.length}</strong>&nbsp;notícias</span>
+    <span class="stat-item">
+      <span class="stat-dot" style="background:var(--verde)"></span>
+      <strong>${relevantCnt}</strong>&nbsp;sobre Semiárido
+    </span>
+    ${SOURCES.filter(s => bySource[s.id]).map(s => `
+      <span class="stat-item">
+        <span class="stat-dot ${s.cls}"></span>
+        ${bySource[s.id]} ${s.label}
+      </span>`).join('')}
+  `;
+}
+
+/* ── FETCH ── */
+async function fetchSource(source) {
+  try {
+    const res  = await fetch(`${PROXY}${encodeURIComponent(source.url)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (!json.contents) throw new Error('sem conteúdo');
+    return parseRSS(json.contents, source);
+  } catch (e) {
+    errors.push(`Não foi possível carregar ${source.label} (${e.message}).`);
+    return [];
+  }
+}
+
+async function loadAll() {
+  const btn = document.getElementById('btnRefresh');
+  btn.disabled = true;
+  btn.textContent = '…';
+  errors = [];
+  allArticles = [];
+
+  document.getElementById('main').innerHTML = `
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Buscando as notícias do território…</div>
+    </div>`;
+
+  const results = await Promise.all(SOURCES.map(fetchSource));
+  results.forEach(arr => allArticles.push(...arr));
+  allArticles.sort((a, b) => b.pubDate - a.pubDate);
+
+  const now = new Date();
+  document.getElementById('lastUpdate').textContent =
+    `Atualizado às ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+
+  btn.disabled = false;
+  btn.textContent = '↺ Atualizar';
+
+  render();
+}
+
+/* ── START ── */
+buildFilters();
+loadAll();
+</script>
+</body>
+</html>
